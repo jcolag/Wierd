@@ -41,6 +41,7 @@ Inertia
 -------
 
 Like water, the Wierd IP takes the path of least resistance when confronted with a choice.  If the Wierd program branches, the IP will always choose the path which is closest to the direction it is already travelling.  Therefore, see the following code. 
+
     ***********
          *
           *
@@ -80,26 +81,34 @@ The instructions, listed by angle, are:
 
 | **Angle** | **Opcode** | **Description** |
 | ------------ |:------:| ----------- |
-|   0 degrees  | `NO`   | No operation, continue as normal. |
-|  45 degrees  | `P1`   | Push a data value of 1 onto the stack. |
-|  90 degrees  | `IF`   | Pop the stack.  If the value is zero, continue executing as normal.  If the value is nonzero, however, reverse direction. |
-| 135 degrees  | `GP`   | Pop the stack.  If the value is zero, pops the next two items from the stack, retrieves (gets) the value stored at the coordinates specified by these values (x, then y), and push it onto the stack.  If the first value was nonzero, however, takes the value stored below the coordinates on the stack, and stores (puts) it at the coordinates. |
-| 180 degrees  | `QU`   | Jump the gap, if possible.  Otherwise, terminate. |
-| 225 degrees  | `IO`   | Pop the stack.  If the value is zero, read a character from input, pushing it onto the stack.  If the value was nonzero, pop the stack, and print the value to output as a character. |
-| 270 degrees  | `IF`   | See 90 degrees.  Included for flexibility. |
-| 315 degrees  | `SB`   | Subtract the top of the stack from the value beneath it, popping both values, and pushing the result. |
+|   0&deg;  | `NO`   | No operation, continue as normal. |
+|  45&deg;  | `P1`   | Push a data value of 1 onto the stack. |
+|  90&deg;  | `IF`   | Pop the stack.  If the value is zero, continue executing as normal.  If the value is nonzero, however, reverse direction. |
+| 135&deg;  | `GP`   | Pop the stack.  If the value is zero, pops the next two items from the stack, retrieves (gets) the value stored at the coordinates specified by these values (x, then y), and push it onto the stack.  If the first value was nonzero, however, takes the value stored below the coordinates on the stack, and stores (puts) it at the coordinates. |
+| 180&deg;  | `QU`   | Jump the gap, if possible.  Otherwise, terminate. |
+| 225&deg;  | `IO`   | Pop the stack.  If the value is zero, read a character from input, pushing it onto the stack.  If the value was nonzero, pop the stack, and print the value to output as a character. |
+| 270&deg;  | `IF`   | See 90&deg;.  Included for flexibility. |
+| 315&deg;  | `SB`   | Subtract the top of the stack from the value beneath it, popping both values, and pushing the result. |
 
 Note that pushing a `1` is the only form of direct data specification available to the developer, and subtraction is the only available arithmetic operation.  If the programmer wants fancy-pants operations like addition or division, they need to be programmed.
 
 Concurrency
 -----------
 
-The exception mentioned above to the "always choose a single path" rule is when the two likeliest paths are at angles of both 90 and 270 degrees--both forms of conditional.  In such a case, rather than choosing one or the other, both paths are chosen, and the IP is cloned (including stack) to cover the other path.
+The exception mentioned above to the "always choose a single path" rule is when the two likeliest paths are at angles of both 90 and 270&deg;--both forms of conditional.  In such a case, rather than choosing one or the other, both paths are chosen, and the IP is cloned (including stack) to cover the other path.
 
 Implementation Notes
 --------------------
 
-As with a lot of these "small language" implementations, this is extremely old code that almost certainly does unsafe things.  I wouldn't recommend using it for anything mission-critical.
+As with a lot of these "small language" implementations, this is extremely old code (1997) that almost certainly does unsafe things.  I wouldn't recommend using it for anything mission-critical.  I mean, I made a function table the centerpiece of the language run-time.  On purpose!
+
+There are several deviations from the "Official" Wierd:
+
+ - __Direction__:  The IP will always try to continue in the same direction (or as close as possible).  When two equally-likely possibilities exist, it will choose the "leftmost" branch.
+
+ - __Conditionals__:  When the IP connects to a 90-degree angle, it pops the stack.  If the result is zero, it continues as if nothing interesting happens.  If nonzero, it reverses the IP direction.
+
+ - __Gap-Sparking__:  If the IP has just "sparked into" a location which is isolated, the program is considered erroneous, as the IP direction is undefined at that time.
 
 I also vaguely recall a pushy user demanding that I fix bugs, including several tirades against having a program that printed ASCII values and didn't skip the beep.  I may have done so.  I may have done so and never released the code.  I probably didn't.  I _know_ the ASCII program was never "fixed," because it's not broken.  Either way, expect the bugs to still be there until I fix them.
 
