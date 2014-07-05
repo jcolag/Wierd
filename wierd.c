@@ -114,7 +114,7 @@ int main (int argc, char *argv[])
  y = 1;				/* Read the file into the memoryspace */
  while (!feof (infile))
 	{
-	 fscanf (infile, "%[^\n]", &workspace[y][1]);
+	 fscanf (infile, "%127[^\n]", &workspace[y][1]);
 	 fgetc (infile);
 	#ifdef DEBUG
 	 printf ("%s\n", &workspace[y][1]);
@@ -450,8 +450,11 @@ int subtract (struct iplist ** ip)
  */
 int terminus (struct iplist ** ip)
 {
- int	i, j, k, *xlist, *ylist;
+ int	i, j, *xlist, *ylist;
  struct	iplist	*list = *ip;
+#ifdef DEBUG
+ int    k;
+#endif
 
 			/* Check for a line to spark to */
  j = find_far (list->x, list->y, list->dx, list->dy, &xlist, &ylist);
@@ -480,5 +483,7 @@ int terminus (struct iplist ** ip)
 	#endif
 	}
  *ip = list;	/* Fix the list pointer in case it was changed */
+ free (xlist);
+ free (ylist);
  return 0;
 }
