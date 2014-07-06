@@ -25,6 +25,8 @@
  *	    2    07aug97    jnc	     Added Multithreading, Revised Conditionals
  *	    3    08aug97    jnc	     Added "Gap-Sparking"
  *	    4    08aug97    jnc	     General Cleanup and Bugfixes
+ *          +    See Git history either in folder or at:
+ *                    https://github.com/jcolag/Wierd
  *
  *	To Do:
  *	    --	Heavier testing (requires writing Wierd code...).
@@ -33,14 +35,19 @@
  */
 
 /*** Preprocessor Directives ***/
+
 /* Included header files */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
+
 /* Constants and Macros */
+
 #define SIZE    128
 
 /*** Data Structures ***/
+
 struct iplist {                         /* An instruction pointer */
     int    ipid;                        /*  A unique identifier */
     int    x;                           /*  The current ordinate value */
@@ -52,7 +59,10 @@ struct iplist {                         /* An instruction pointer */
     struct iplist  *next;               /*  The next IP available */
 };
 
-/*** Function Prototypes (only for the function table below) ***/
+/*** Function Prototypes ***/
+
+/* For the function table */
+
 int nop         (struct iplist **);
 int push1       (struct iplist **);
 int subtract    (struct iplist **);
@@ -61,11 +71,13 @@ int getput      (struct iplist **);
 int inputoutput (struct iplist **);
 int terminus    (struct iplist **);
 
-/*** more prototypes, because my compiler likes them - cap */
-int turn45 (int * xdir, int * ydir);
+/* Other */
+
+int turn45      (int * xdir, int * ydir);
 int getnextturn (int x, int y, int * dx, int * dy);
 
 /*** Global Variables ***/
+
 char    workspace[SIZE][SIZE];          /* The "Wierd memory space" */
 int     tmpx, tmpy,                     /* temporary deltas */
         ipid = 0, ip_killed;            /* IP identifier, kill flag */
@@ -92,7 +104,9 @@ int main (int argc, char *argv[]) {
     int     i, x, y;                    /* Temporary variables */
     FILE   *infile;                     /* Input file */
 
-    if (argc < 2) {                     /* Not enough arguments--don't know what to do */
+    if (argc < 2) {                     /* Not enough arguments--don't know
+                                         * what to do
+                                         */
         fprintf (stderr, "Error:\n\t%s <Wierd Filename>\n", argv[0]);
         exit (1);
     }
@@ -330,10 +344,10 @@ int find_far (int x, int y, int dx, int dy, int **xcoors, int **ycoors) {
             /* Scan along the array in two dimensions */
             if (i < 4 || j < 4) {       /* If at least one index looks at {2,3} */
                 ti = dx>0?a[i]:-a[i];   /* Invert if a delta is */
-                tj = dy>0?a[j]:-a[j];   /* negative */
+                tj = dy>0?a[j]:-a[j];   /*   negative */
                 if (x>a[i] && y>a[j] && workspace[x+ti][y+tj] != ' ') {
                                         /* If the location exists and isn't */
-                    xs[pts] = x + ti;   /* a space */
+                    xs[pts] = x + ti;   /*   a space */
                     ys[pts] = y + tj;   /* Add to list */
                     if (xs[pts] > 0 && ys[pts] > 0) {
                         ++ pts;
@@ -345,8 +359,9 @@ int find_far (int x, int y, int dx, int dy, int **xcoors, int **ycoors) {
 
     *xcoors = (int *) malloc (sizeof (int) * pts);
     *ycoors = (int *) malloc (sizeof (int) * pts);
-    for (i=0;i<pts;++i) {               /* Copy the list of candidates to where */
-                                        /* the calling function suggests */
+    for (i=0;i<pts;++i) {               /* Copy the list of candidates to where
+                                         * the calling function suggests
+                                         */
         (*xcoors)[i] = xs[i];
         (*ycoors)[i] = ys[i];
     }
@@ -355,7 +370,8 @@ int find_far (int x, int y, int dx, int dy, int **xcoors, int **ycoors) {
 }
 
 /*** Source Code for internal Interpreter Operations (called from the
-     function table only ***/
+ *** function table only
+ ***/
 
 /* Function nop():
  *	No-operation.
@@ -379,14 +395,15 @@ int push1 (struct iplist ** ip) {
  *	Otherwise, it reverses the direction of the IP.
  */
 int condition (struct iplist ** ip) {
-    int    i;
+    int             i;
     struct iplist  *list = *ip;
 
     /* Two coincident 90-degree turns spawns a new IP */
     if (workspace[list->x-tmpx][list->y-tmpy] != ' ') {
         add_thread (list, tmpx, tmpy);
-        /* Otherwise, check top of the stack determines whether */
-        /* we continue or change direction */
+        /* Otherwise, check top of the stack determines whether
+         * we continue or change direction
+         */
     } else if (list->s_top && list->stack[--list->s_top]) {
         list->x += tmpx;
         list->y += tmpy;
@@ -406,7 +423,8 @@ int condition (struct iplist ** ip) {
     }
 
     *ip = list;                         /* Fix the IP list in case the
-                                         * current thread changed */
+                                         * current thread changed
+                                         */
     return 0;
 }
 
@@ -469,7 +487,9 @@ int subtract (struct iplist ** ip) {
     }
 
     list->stack[list->s_top - 2] -= list->stack[list->s_top - 1];
-    --list->s_top;                      /* Otherwise, subtract top from under and pop */
+    --list->s_top;                      /* Otherwise, subtract top from
+                                         *   under and pop
+                                         */
     return 0;
 }
 
@@ -492,8 +512,9 @@ int terminus (struct iplist ** ip) {
     }
 
     #endif
-    if (j < 3) {                        /* Less than three means it's probably our */
-                                        /* incoming path */
+    if (j < 3) {                        /* Less than three means it's probably
+                                         * our incoming path
+                                         */
         if (list->next == list) {
             return -1;                  /* so kill the thread */
         }
