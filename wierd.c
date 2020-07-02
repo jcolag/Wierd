@@ -124,7 +124,7 @@ int main (int argc, char *argv[]) {
     }
 
     y = 1;                              /* Read the file into the memoryspace */
-    while (!feof (infile)) {
+    while (!feof (infile) && y < SIZE) {
         fscanf (infile, "%127[^\n]", &workspace[y][1]);
         fgetc (infile);
         #ifdef DEBUG
