@@ -44,7 +44,7 @@
 
 /* Constants and Macros */
 
-#define SIZE    128
+#define SIZE    1024                    /* keep in sync with "%1023[^\n]" */
 
 /*** Data Structures ***/
 
@@ -125,7 +125,7 @@ int main (int argc, char *argv[]) {
 
     y = 1;                              /* Read the file into the memoryspace */
     while (!feof (infile) && y < SIZE) {
-        fscanf (infile, "%127[^\n]", &workspace[y][1]);
+        fscanf (infile, "%1023[^\n]", &workspace[y][1]);
         fgetc (infile);
         #ifdef DEBUG
         printf ("%s\n", &workspace[y][1]);
