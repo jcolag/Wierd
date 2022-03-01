@@ -406,12 +406,8 @@ int condition (struct iplist ** ip) {
          * we continue or change direction
          */
     } else if (list->s_top && list->stack[--list->s_top]) {
-        list->x += tmpx;
-        list->y += tmpy;
-        i = tmpx;                       /* Reflect the IP */
-        tmpx = -tmpy;
-        tmpy = -i;
-        i = getnextturn (list->x, list->y, &tmpx, &tmpy);
+        tmpx = -list->dx;               /* Reflect the IP */
+        tmpy = -list->dy;
         #ifdef DEBUG
         printf ("<%d>\t", list->ipid);
         printf ("(%d,%d)\t", list->y, list->x);
@@ -419,7 +415,7 @@ int condition (struct iplist ** ip) {
             printf ("[%d] ", list->stack[i]);
         }
 
-        printf ("\t\t%d\n", i);
+        printf ("\t\t%d\n", 180);
         #endif
     }
 
