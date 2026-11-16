@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2014 John Colagioia <john@colagioia.net>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 There are several versions of this program:
 cat1.w: reads one character and write it out, no check for EOF
 cat2.w: pumps input to output, no check for EOF (makes use of the fact that

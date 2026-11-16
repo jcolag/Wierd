@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2014 John Colagioia <john@colagioia.net>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 Just to illustrate exactly how sick I am, this took about three hours,
 most of which was fidgeting with the editor to make the geometry work.
 

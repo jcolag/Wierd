@@ -1,4 +1,10 @@
 /*
+ * SPDX-FileCopyrightText: 2014 John Colagioia <john@colagioia.net>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/*
  *   Wierd Interpreter:
  *
  *	Wierd Language developed by Chris Pressey, August 1997

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2014 John Colagioia <john@colagioia.net>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 loop1.w is an infinite loop, which I have tried to write with minimal size (with
 the restraints that any garbage put on the stack must be taken off again, but
 that no popping intructions may be performed when there is still data on the

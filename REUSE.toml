@@ -1,0 +1,8 @@
+version = 1
+
+[[annotations]]
+path = ["samples/add.w", "samples/cat1.w", "samples/hello.w", "samples/loop2.w", "samples/loop1.w", "samples/cat3.w", "samples/cat4.w", "samples/cat2.w", "samples/ascii.w", "samples/asciiadd.w"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2014 John Colagioia <john@colagioia.net>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+

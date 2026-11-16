@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2014 John Colagioia <john@colagioia.net>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 There are two versions of this program:
 asciiadd.w: reads two characters, adds their ASCII values, and prints them out
 add.w:      like above, but treats 0 as origin, so 1+2 is 3 rather than c
